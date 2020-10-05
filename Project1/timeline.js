@@ -3,7 +3,7 @@ function drawTimeline() {
     d3.csv("deathdays.csv").then((data) => {
         let canvas = d3.select("#timelineSvg");
 
-        let maxHeight = 200;
+        let maxHeight = 450;
         let maxWidth = 550;
         let spacing = 3;
         let top = 50;
@@ -11,10 +11,19 @@ function drawTimeline() {
 
         let dateParse = d3.timeParse("%e-%b");
 
+
+        let totalDeaths = 0;
         data.forEach(d => {
             d.date = dateParse(d.date);
             d.deaths = parseInt(d.deaths);
+            totalDeaths += d.deaths;
+            d.totalDeaths = totalDeaths;
         });
+
+        let maxValue = d3.max(data, d => { return parseInt(d.deaths); });
+        while (maxValue % 10 != 0) {
+            maxValue += 1;
+        }
 
         let x = d3.scaleBand()
             .domain(data.map(d => { return d.date; }))
@@ -22,12 +31,13 @@ function drawTimeline() {
             .paddingInner(.25)
             .round(true);
         let y = d3.scaleLinear()
-            .domain([0, d3.max(data, d => { return parseInt(d.deaths); })])
+            .domain([0, maxValue])
             .range([maxHeight, 0]);
         let xAxis = d3.axisBottom(x)
             .tickFormat(d3.timeFormat("%e-%b"));
         let yAxis = d3.axisLeft(y)
-            .ticks(10);
+            .ticks(15)
+            .tickSize(-maxWidth + left);
 
         canvas.append("g")
             .attr("id", "xAxis")
@@ -59,6 +69,9 @@ function drawTimeline() {
             .attr("x", d => { return x(d.date); })
             .attr("width", x.bandwidth())
             .attr("y", d => { return y(d.deaths) + top})
-            .attr("height", d => { return maxHeight - y(d.deaths)});
+            .attr("height", d => { return maxHeight - y(d.deaths)})
+            .on("click", (e, d) => {
+                drawDeaths(d.totalDeaths);
+            });
     });
 }

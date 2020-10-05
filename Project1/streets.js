@@ -47,10 +47,21 @@ function drawPumps() {
     });
 }
 
-function drawDeaths(date = null) {
+function drawDeaths(numberOfDeaths = -1) {
 
-    d3.csv("deaths_age_sex.csv").then((data) => {
+    //$(".deathCircle").remove();
+    d3.selectAll(".deathCircle").remove();
+
+    d3.csv("deaths_age_sex.csv").then(data => {
+        d3.selectAll(".deathCircle").remove();
+        return data;
+    }).then((data) => {
         let canvas = d3.select("#mainSvg");
+
+        //if (numberOfDeaths > 0) {
+        //    data = data.slice(0, numberOfDeaths);
+        //}
+
         data = data.map(d => {return {x: parseFloat(d.x), y: parseFloat(d.y)}});
 
         let groupedData = [];
@@ -78,6 +89,8 @@ function drawDeaths(date = null) {
             .data(data)
             .enter()
                 .append("circle")
+                .filter((d, i) => { return (i < numberOfDeaths) || (numberOfDeaths < 0)})
+                .attr("class", "deathCircle")
                 .attr("cx", (d) => {return pointConversion(d).x})
                 .attr("cy", (d) => {return pointConversion(d).y})
                 .attr("r", 2)
