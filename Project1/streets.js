@@ -85,10 +85,13 @@ function drawDeaths(numberOfDeaths = -1) {
 
         let flattenedData = groupedData.map(d => {return {x: d.x, y: d.y, count: d.elements.length}});
 
-        canvas.selectAll("circle")
-            .data(data)
-            .enter()
+        let circles = canvas.selectAll(".deathCircle").data(data);
+
+        circles.exit().remove();
+
+        circles.enter()
                 .append("circle")
+                .merge(circles)
                 .filter((d, i) => { return (i < numberOfDeaths) || (numberOfDeaths < 0)})
                 .attr("class", "deathCircle")
                 .attr("cx", (d) => {return pointConversion(d).x})
