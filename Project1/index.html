@@ -7,7 +7,13 @@
         <script src="main.js"></script>
     </head>
     <body>
-        <svg id="mainSvg" width="600" height="900">
+        <svg id="mainSvg" width="600" height="600">
+		    <line id="topLine" x1=0 y1=0 x2=600 y2=0 stroke=red stroke-width=5></line>
+            <line id="bottomLine" x1=0 y1=600 x2=600 y2=600 stroke=red stroke-width=5></line>
+		    <line id="rightLine" x1=600 y1=0 x2=600 y2=600 stroke=red stroke-width=5></line>
+		    <line id="leftLine" x1=0 y1=0 x2=0 y2=600 stroke=red stroke-width=5></line>
+        </svg>
+        <svg id="timelineSvg" width="600" height="600">
 		    <line id="topLine" x1=0 y1=0 x2=600 y2=0 stroke=red stroke-width=5></line>
             <line id="bottomLine" x1=0 y1=600 x2=600 y2=600 stroke=red stroke-width=5></line>
 		    <line id="rightLine" x1=600 y1=0 x2=600 y2=600 stroke=red stroke-width=5></line>

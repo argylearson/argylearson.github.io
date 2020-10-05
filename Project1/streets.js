@@ -12,8 +12,8 @@ function drawStreets() {
 
     d3.json("streets.json").then((data) => {
         let canvas = d3.select("#mainSvg");
-        width = 600;
-        height = 600;
+        width = parseInt(canvas.attr("width"));
+        height = parseInt(canvas.attr("height"));
         
         maxSize = d3.max(data.map(d => Math.max(d[0].x, d[0].y, d[1].x, d[1].y)));
         minSize = d3.min(data.map(d => Math.min(d[0].x, d[0].y, d[1].x, d[1].y)));
@@ -47,7 +47,7 @@ function drawPumps() {
     });
 }
 
-function drawDeaths() {
+function drawDeaths(date = null) {
 
     d3.csv("deaths_age_sex.csv").then((data) => {
         let canvas = d3.select("#mainSvg");
