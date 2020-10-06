@@ -5,7 +5,6 @@ function drawTimeline() {
 
         let maxHeight = 450;
         let maxWidth = 550;
-        let spacing = 3;
         let top = 50;
         let left = 50;
 
@@ -105,6 +104,7 @@ function drawTimeline() {
             .attr("height", d => { return maxHeight - y(d.deaths)})
             .on("mouseenter", (e, d) => {
                 drawDeaths(d.totalDeaths);
+                drawDeathStats(d.totalDeaths);
             });
     });
 }
