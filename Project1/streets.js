@@ -37,7 +37,7 @@ function drawStreets() {
             .attr("cx", 400)
             .attr("cy", 10)
             .attr("r", 5)
-            .attr("fill", cCyan);
+            .attr("fill", cSky);
 
         canvas.append("text")
             .attr("id", "title")
@@ -91,7 +91,7 @@ function drawPumps() {
                 .attr("cx", (d) => {return pointConversion(d).x})
                 .attr("cy", (d) => {return pointConversion(d).y})
                 .attr("r", 5)
-                .attr("fill", cCyan);
+                .attr("fill", cSky);
     });
 }
 
