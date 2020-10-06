@@ -57,20 +57,53 @@ function drawTimeline() {
                 .attr("transform", "rotate(-90)")
                 .attr("y", 6)
                 .attr("dy", ".71em")
-                .style("text-anchor", "end")
-                .text("Deaths");
+                .style("text-anchor", "end");
 
+        canvas.append("text")
+            .attr("id", "xLabel")
+            .attr("text-anchor", "middle")
+            .attr("x", maxWidth/2)
+            .attr("y", maxHeight + top + 75)
+            .attr("font-family", "sans-serif")
+            .text("Date (1854)");
 
-        canvas.selectAll("bar")
-            .data(data)
-            .enter()
+        canvas.append("text")
+            .attr("id", "yLabel")
+            .attr("text-anchor", "middle")
+            .attr("x", -maxHeight/2)
+            .attr("y", left - 25)
+            .attr("font-family", "sans-serif")
+            .attr("transform", "rotate(-90)")
+            .text("Number of Deaths");
+
+        canvas.append("text")
+            .attr("id", "title")
+            .attr("text-anchor", "middle")
+            .attr("x", maxWidth/2 + left/2)
+            .attr("y", top - 25)
+            .attr("font-family", "sans-serif")
+            .attr("font-weight", "bold")
+            .text("Deaths per Day");
+
+        canvas.append("text")
+            .attr("id", "title")
+            .attr("text-anchor", "middle")
+            .attr("x", maxWidth/2 + left/2)
+            .attr("y", top - 5)
+            .attr("font-family", "sans-serif")
+            .text("Hover to Show Cumulative Deaths up to that Date");
+
+        let bars = canvas.selectAll("bar").data(data);
+
+        bars.enter()
             .append("rect")
-            .style("fill", "red")
+            .merge(bars)
+            .style("fill", cOrange)
             .attr("x", d => { return x(d.date); })
             .attr("width", x.bandwidth())
             .attr("y", d => { return y(d.deaths) + top})
             .attr("height", d => { return maxHeight - y(d.deaths)})
-            .on("click", (e, d) => {
+            .on("mouseenter", (e, d) => {
                 drawDeaths(d.totalDeaths);
             });
     });

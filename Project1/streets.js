@@ -3,6 +3,15 @@ let height;
 let maxSize;
 let minSize;
 
+//using Wong colorblind safe palette
+const cBlack = "rgb(0,0,0)";
+const cOrange = "rgb(230, 159, 0)";
+const cSky = "rgb(86,180, 233)";
+const cCyan = "rgb(0, 158, 115)";
+const cYellow = "rgb(240, 228, 66)";
+const cBlue = "rgb(0, 114, 178)";
+const cUmber = "rgb(213, 94, 0)";
+const cPink = "rgb(204, 121, 167)";
 
 function initMainSvg() {
     drawStreets();
@@ -14,6 +23,44 @@ function drawStreets() {
         let canvas = d3.select("#mainSvg");
         width = parseInt(canvas.attr("width"));
         height = parseInt(canvas.attr("height"));
+
+        canvas.append("text")
+            .attr("id", "title")
+            .attr("text-anchor", "middle")
+            .attr("x", 300)
+            .attr("y", 25)
+            .attr("font-family", "sans-serif")
+            .attr("font-weight", "bold")
+            .text("Map of Deaths");
+
+        canvas.append("circle")
+            .attr("cx", 400)
+            .attr("cy", 10)
+            .attr("r", 5)
+            .attr("fill", cCyan);
+
+        canvas.append("text")
+            .attr("id", "title")
+            .attr("text-anchor", "start")
+            .attr("x", 410)
+            .attr("y", 16)
+            .attr("font-family", "sans-serif")
+            .text("Pump Location");
+
+        canvas.append("text")
+            .attr("id", "title")
+            .attr("text-anchor", "start")
+            .attr("x", 410)
+            .attr("y", 36)
+            .attr("font-family", "sans-serif")
+            .text("Death Location");
+
+        canvas.append("circle")
+            .attr("cx", 400)
+            .attr("cy", 30)
+            .attr("r", 2)
+            .attr("fill", cOrange);
+
         
         maxSize = d3.max(data.map(d => Math.max(d[0].x, d[0].y, d[1].x, d[1].y)));
         minSize = d3.min(data.map(d => Math.min(d[0].x, d[0].y, d[1].x, d[1].y)));
@@ -26,7 +73,7 @@ function drawStreets() {
                 .attr("y1", (d) => {return pointConversion(d[0]).y})
                 .attr("x2", (d) => {return pointConversion(d[1]).x})
                 .attr("y2", (d) => {return pointConversion(d[1]).y})
-                .attr("style", "stroke:rgb(0,0,0);stroke-width:2");
+                .attr("style", "stroke:" + cBlack + ";stroke-width:2");
     //i tried to find a better way to force synchronous behavior
     }).then(drawPumps).then(drawDeaths);
 }
@@ -40,10 +87,11 @@ function drawPumps() {
             .data(data)
             .enter()
                 .append("circle")
+                .attr("class", "pumpCircle")
                 .attr("cx", (d) => {return pointConversion(d).x})
                 .attr("cy", (d) => {return pointConversion(d).y})
                 .attr("r", 5)
-                .attr("fill", "green");
+                .attr("fill", cCyan);
     });
 }
 
@@ -96,8 +144,8 @@ function drawDeaths(numberOfDeaths = -1) {
                 .attr("class", "deathCircle")
                 .attr("cx", (d) => {return pointConversion(d).x})
                 .attr("cy", (d) => {return pointConversion(d).y})
-                .attr("r", 2)
-                .attr("fill", "red");
+                .attr("r", 2.5)
+                .attr("fill", cOrange);
     });
 }
 
