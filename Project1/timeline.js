@@ -69,7 +69,7 @@ function drawTimeline() {
         canvas.append("text")
             .attr("id", "yLabel")
             .attr("text-anchor", "middle")
-            .attr("x", -maxHeight/2)
+            .attr("x", -maxHeight/2 - top)
             .attr("y", left - 25)
             .attr("font-family", "sans-serif")
             .attr("transform", "rotate(-90)")
